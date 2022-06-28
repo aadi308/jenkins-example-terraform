@@ -41,7 +41,7 @@ checks:
         predicateMatchSpec:
           - action: contains
             name: cidr_blocks
-            value: 0.0.0.0/0
+            value: 10.10.0.0/16
           - action: isAny
             name: type
             value:

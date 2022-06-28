@@ -26,7 +26,7 @@ checks:
   relatedLinks:
   - http://internal.acmecorp.com/standards/aws/tagging.html-
 - code: SG001
-  description: Security Groups should not have unrestricted inbound or outbound access
+  description: Security Groups should have unrestricted inbound or outbound access
   impact: Security Groups should not have unrestricted inbound or outbound access
   resolution: Security group should not have unauthorized access
   requiredTypes:

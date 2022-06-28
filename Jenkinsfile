@@ -23,6 +23,19 @@ pipeline {
          }
       }
     }
+     stage('TF lint') {
+           agent {
+               docker {
+                   image "ghcr.io/terraform-linters/tflint"
+                   args '-i --entrypoint='
+                 }
+           }
+           steps {
+	     sh '''
+               tflint . --no-color
+             '''
+	   }
+    }
     stage('tfsec') {
       agent {
         docker {
@@ -35,19 +48,6 @@ pipeline {
           tfsec . --no-color
         '''
       }
-    }
-    stage('TF lint') {
-           agent {
-               docker {
-                   image "ghcr.io/terraform-linters/tflint"
-                   args '-i --entrypoint='
-                 }
-           }
-           steps {
-	     sh '''
-               tflint . --no-color
-             '''
-	   }
     }
     stage('terraform-apply-and-destroy') {
       steps {

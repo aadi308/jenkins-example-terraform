@@ -1,0 +1,117 @@
+---
+checks:
+- code: CUS001
+  description: Ensure the ami and azs 
+  impact: checks the ami and azs
+  resolution: put the given ami and azs us-east-2a and us-east-2c
+  requiredTypes:
+  - resource
+  requiredLabels:
+  - aws_instance
+  severity: HIGH
+  matchSpec:
+    action: or
+    predicateMatchSpec:
+      - action: and
+        predicateMatchSpec:
+          - name: ami
+            action: contains
+            value: ami-005e54dee72cc1d00
+          - name: availability_zone
+            action: isAny
+            value:
+              - us-east-2a
+              - us-east-2c
+  errorMessage: The required ami or azs was missing
+  relatedLinks:
+  - http://internal.acmecorp.com/standards/aws/tagging.html-
+- code: SG001
+  description: Security Groups should not have unrestricted inbound or outbound access
+  impact: Security Groups should not have unrestricted inbound or outbound access
+  resolution: Security group should not have unauthorized access
+  requiredTypes:
+  - resource
+  requiredLabels:
+  - aws_security_group_rule
+  severity: ERROR
+  matchSpec:
+    action: and
+    predicateMatchSpec:
+      - action: and
+        predicateMatchSpec:
+          - action: contains
+            name: cidr_blocks
+            value: 0.0.0.0/0
+          - action: isAny
+            name: type
+            value:
+              - ingress
+              - egress
+  errorMessage: It has unauthorized access
+  relatedLinks:
+  - http://internal.acmecorp.com/standards/aws/tagging.html
+- code: SG002
+  description: The ingress ports should not have unrestricted access
+  impact: The ingress ports should not have unrestricted access
+  resolution: Non HTTP/HTTPS ports should not have unrestricted access
+  requiredTypes:
+  - resource
+  requiredLabels:
+  - aws_security_group_rule
+  severity: ERROR
+  matchSpec:
+      action : or
+      predicateMatchSpec:
+        - action: and
+          predicateMatchSpec:
+            - action: notContains
+              name: cidr_blocks
+              value: 0.0.0.0/0
+            - action: equals
+              name: type
+              value: ingress
+            - action: isAny
+              name: from_port
+              value:
+                - 80
+                - 443
+                - 21
+                - 22
+                - 23
+                - 1443
+                - 3389
+                - 5900
+                - 5800
+                - 139
+                - 27017
+                - 53
+                - 137
+                - 1521
+                - 5432
+                - 3200
+                - 25
+                - 1434 
+            - action: isAny
+              name: to_port
+              value:
+                - 80
+                - 443
+                - 21
+                - 22
+                - 23
+                - 1443
+                - 3389
+                - 5900
+                - 5800
+                - 139
+                - 27017
+                - 53
+                - 137
+                - 1521
+                - 5432
+                - 3200
+                - 25
+                - 1434
+  errorMessage: It has unauthorized access
+  relatedLinks:
+  - http://internal.acmecorp.com/standards/aws/tagging.html

@@ -61,7 +61,7 @@ pipeline {
     }
   }
   post {
-    sucess {
+    always {
             slackSend channel: 'jenkin_notifi', message: "status is:- ${currentBuild.currentResult} ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
            
  }

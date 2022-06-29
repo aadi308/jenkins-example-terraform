@@ -62,14 +62,9 @@ pipeline {
   }
   post {
     sucess {
-            slackSend channel: 'jenkin_notifi', message: "Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            slackSend channel: 'jenkin_notifi', message: "status is:- ${currentBuild.currentResult} ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
            
  }
    }
-  post {
-    failure {
-           slackSend channel: 'jenkin_notifi', failOnError:true, message:"Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-    }
-}
   }
 

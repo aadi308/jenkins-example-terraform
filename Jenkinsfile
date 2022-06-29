@@ -62,7 +62,10 @@ pipeline {
   }
   post {
     always {
-      cleanWs()
+            slackSend channel: 'jenkin_notifi', message: "Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+           
+ }
+      
     }
   }
-}
+
